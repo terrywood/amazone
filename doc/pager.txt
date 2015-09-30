@@ -1,0 +1,42 @@
+最后附上pager-taglib的使用方法
+
+pg:pager【这个标签用来设置分页的总体参数】重要参数说明：
+url:分页的链接根地址，pager标签会在这个链接的基础上附加分页参数
+items:总记录数，pager标签正是根据这个值来计算分页参数的
+maxPageItems:每页显示的行数，默认为10
+maxIndexPages:在循环输出页码的时候，最大输出多少个页码，默认是10
+
+pg:first【第一页的标签】重要参数说明：
+export变量的意义：
+pageUrl - 分页链接URL地址（最重要的export参数）
+pageNumber - 页码
+firstItem - 首页第一行的索引值
+lastItem - 首页最后一行的索引值
+
+pg:pre【上一页标签】重要参数说明：
+export变量的意义：
+pageUrl - 分页链接URL地址（最重要的export参数）
+pageNumber - 页码
+firstItem - 前页第一行的索引值
+lastItem - 前页最后一行的索引值
+
+pg:next【下一页标签】重要参数说明：
+export变量的意义：
+pageUrl - 分页链接URL地址（最重要的export参数）
+pageNumber - 页码
+firstItem - 下页第一行的索引值
+lastItem - 下页最后一行的索引值
+
+pg:last重要参数说明：
+export变量的意义：
+pageUrl - 分页链接URL地址（最重要的export参数）
+pageNumber - 页码
+firstItem - 尾页第一行的索引值
+lastItem - 尾页最后一行的索引值
+
+pg:pages【这个标签用来循环输出页码信息】重要参数说明：
+export变量的意义：
+pageUrl - 分页链接URL地址（最重要的export参数）
+pageNumber - 页码
+firstItem - pageNumber这个页码指定的那一页的第一行的索引值
+lastItem - pageNumber这个页码指定的那一页的最后一行的索引值

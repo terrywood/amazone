@@ -382,13 +382,13 @@
             <version>1.8.3</version>
         </dependency>
 
- <!--       <dependency>
-            <groupId>chilkat</groupId>
-            <artifactId>chilkat</artifactId>
+      <dependency>
+            <groupId>com.jsptags.navigation.pager</groupId>
+            <artifactId>pager</artifactId>
             <version>1.0</version>
             <scope>system</scope>
-            <systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/htmlparser.jar</systemPath>
-        </dependency>-->
+            <systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/pager-taglib.jar</systemPath>
+        </dependency>
 
     </dependencies>
 

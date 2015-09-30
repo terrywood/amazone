@@ -20,19 +20,20 @@
     </div>
 </div>--%>
 <div class="list-div">
-    <form action="" method="post" id="list_form">
+    <form action="orderList.do" method="post" id="list_form">
 
         <div class="pics">
             <p>
                 orderId: <input type="text"name="orderId" id="orderId" value="${orderId}">
                 orderName: <input type="text" name="orderName" id="orderName" value="${orderName}">
-                status: <input type="text" name="status" id="status" value="${status}">
+
+               status: <input type="text" name="status" id="status" value="${status}">
                 productId: <input type="text" name="productId" id="productId" value="${productId}">
 
             </p>
 
             <div class="button_row">
-                <button class="button" type="button" onclick="save()">Search</button>
+                <button class="button" type="submit" >Search</button>
              <%--   <button class="button" type="button" onclick="back();">Cancel</button>--%>
             </div>
         </div>
@@ -45,53 +46,62 @@
     <table id="list_table">
         <thead>
         <tr style="font-size: 100">
-            <th width="100">menu id</th>
+            <th width="100">id</th>
             <th width="100">name</th>
-            <th width="100">selected</th>
-            <th width="100">toggle</th>
-            <th width="100">type</th>
+            <th width="100">orderTime</th>
+            <th width="100">#</th>
 
         </tr>
         </thead>
         <tbody>
-        <%--c:forEach var="parentScmpMenu" items="${parentScmpMenus}">
+        <c:forEach var="obj" items="${pageList.data}">
             <tr>
-                <td>${parentScmpMenu.menuId}</td>
-                <td>${parentScmpMenu.name}</td>
-                <td>
-                    <c:if test="${parentScmpMenu.selected==1}">true</c:if>
-                    <c:if test="${parentScmpMenu.selected==0}">false</c:if>
-                </td>
-                <td>
-                    <c:if test="${parentScmpMenu.toggle==1}">true</c:if>
-                    <c:if test="${parentScmpMenu.toggle==0}">false</c:if>
-                </td>
-                <td>${parentScmpMenu.type}</td>
-                <td>${parentScmpMenu.apiName}</td>
-                <td>${parentScmpMenu.limit}</td>
-                <td>${parentScmpMenu.sequence}</td>
-                <td style="text-align: center">
-                    <input value="Edit" class="button" style="cursor: pointer;" type="button"
-                           onclick="modifyBtn(${parentScmpMenu.id});"/>
-                    <input value="Sub Menu" class="button" style="cursor: pointer;" type="button"
-                           onclick="modifySubMenuBtn(${parentScmpMenu.menuId});"/>
-                    <input value="Delete" class="button" style="cursor: pointer;" type="button"
-                           onclick="deleteBtn(${parentScmpMenu.id},${parentScmpMenu.menuId});"/>
+                <td>${obj.id}</td>
+                <td>${obj.orderName}</td>
+                <td><fmt:formatDate value="${obj.orderTime}" pattern="yyyy-MM-dd"/> </td>
+                <td>detail</td>
+
                 </td>
             </tr>
-
-        </c:forEach>--%>
-
+        </c:forEach>
         </tbody>
 
-     <%--   <tfoot>
+      <tfoot>
         <tr>
-            <td colspan="8"></td>
+            <td colspan="4">
+
+            </td>
         </tr>
-        </tfoot>--%>
+        </tfoot>
 
     </table>
 
+   <div>
+    <pg:pager url="orderList.do" maxPageItems="20" items="${pageList.totalItems}" export="currentPageNumber=pageNumber">
+        <pg:first>
+            <a href="${pageUrl}">首页</a>
+        </pg:first>
+        <pg:prev>
+            <a href="${pageUrl }">上一页</a>
+        </pg:prev>
+        <pg:pages>
+            <c:choose>
+                <c:when test="${currentPageNumber eq pageNumber}">
+                    <font color="red">${pageNumber }</font>
+                </c:when>
+                <c:otherwise>
+                    <a href="${pageUrl }">${pageNumber }</a>
+                </c:otherwise>
+            </c:choose>
+        </pg:pages>
+        <pg:next>
+            <a href="${pageUrl }">下一页</a>
+        </pg:next>
+        <pg:last>
+            <a href="${pageUrl }">尾页</a>
+        </pg:last>
+    </pg:pager>
+   </div>
 </div>
 
     <div id="footer"><span>Powered By</span></div>

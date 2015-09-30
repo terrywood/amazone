@@ -203,7 +203,6 @@ public class OrderServiceImpl extends BmfBaseServiceImpl<Order> implements Order
             HttpPost httpPost = new HttpPost(_url);
             httpPost.addHeader("Cookie", cookie);
             httpPost.addHeader("User-Agent", userAgent);
-
             response = httpclient.execute(httpPost);
             String responseBody = IOUtils.toString(response.getEntity().getContent(), Consts.UTF_8);
             System.out.print(response.getStatusLine().getStatusCode());
