@@ -50,7 +50,6 @@
             <th width="100">name</th>
             <th width="100">orderTime</th>
             <th width="100">#</th>
-
         </tr>
         </thead>
         <tbody>
@@ -65,43 +64,25 @@
             </tr>
         </c:forEach>
         </tbody>
-
-      <tfoot>
-        <tr>
-            <td colspan="4">
-
-            </td>
-        </tr>
-        </tfoot>
-
     </table>
 
-   <div>
-    <pg:pager url="orderList.do" maxPageItems="20" items="${pageList.totalItems}" export="currentPageNumber=pageNumber">
-        <pg:first>
-            <a href="${pageUrl}">首页</a>
-        </pg:first>
-        <pg:prev>
-            <a href="${pageUrl }">上一页</a>
-        </pg:prev>
-        <pg:pages>
-            <c:choose>
-                <c:when test="${currentPageNumber eq pageNumber}">
-                    <font color="red">${pageNumber }</font>
-                </c:when>
-                <c:otherwise>
-                    <a href="${pageUrl }">${pageNumber }</a>
-                </c:otherwise>
-            </c:choose>
-        </pg:pages>
-        <pg:next>
-            <a href="${pageUrl }">下一页</a>
-        </pg:next>
-        <pg:last>
-            <a href="${pageUrl }">尾页</a>
-        </pg:last>
-    </pg:pager>
-   </div>
+    <div id="paginationDiv">
+        <pg:pager url="orderList.do"
+                  items="${pageList.totalItems}"
+                  maxPageItems="20"
+                  maxIndexPages="10"
+                  export="pagerOffset=pageOffset,currentPageNumber=pageNumber"
+                  index="center">
+            <pg:param name="pageNumber" />
+            <pg:index >
+                <ul id="pagination">
+                    <pg:prev ifnull="true"><c:choose><c:when test="${not empty pageUrl}"><li class="previous"><a href="${pageUrl}">&#171; Previous</a></li></c:when><c:otherwise><li class="previousOff">&#171; Previous</li></c:otherwise></c:choose></pg:prev><pg:pages><c:choose><c:when test="${pageNumber == currentPageNumber}"><li class="active">${pageNumber}</li></c:when><c:otherwise><li><a href="${pageUrl}">${pageNumber}</a></li></c:otherwise></c:choose></pg:pages><pg:next ifnull="true"><c:choose><c:when test="${not empty pageUrl}"><li class="next"><a href="${pageUrl}">Next &#187;</a></li></c:when><c:otherwise><li class="nextOff">Next &#187;</li></c:otherwise></c:choose></pg:next>
+                </ul>
+            </pg:index>
+        </pg:pager>
+    </div>
+
+
 </div>
 
     <div id="footer"><span>Powered By</span></div>
