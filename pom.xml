@@ -434,35 +434,6 @@
                 </plugins>
             </build>
         </profile>
-        <profile>
-            <id>hkuat</id>
-            <build>
-                <finalName>${finalName}</finalName>
-                <plugins>
-                    <plugin>
-                        <artifactId>maven-resources-plugin</artifactId>
-                        <version>2.5</version>
-                        <executions>
-                            <execution>
-                                <id>copy-resources</id>
-                                <phase>validate</phase>
-                                <goals>
-                                    <goal>copy-resources</goal>
-                                </goals>
-                                <configuration>
-                                    <outputDirectory>${project.build.outputDirectory}/config</outputDirectory>
-                                    <resources>
-                                        <resource>
-                                            <directory>profiles/hkuat/config</directory>
-                                            <filtering>true</filtering>
-                                        </resource>
-                                    </resources>
-                                </configuration>
-                            </execution>
-                        </executions>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>-->
+        -->
     </profiles>
 </project>
