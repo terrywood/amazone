@@ -5,6 +5,7 @@ import com.gt.bmf.common.page.PageList;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 
 public interface BmfBaseService<M> {
 
@@ -28,6 +29,6 @@ public interface BmfBaseService<M> {
 
 	public List<M> findAll();
 
-	public PageList<M> findPageData(int pageNum, int pageSize);
+
 
 }

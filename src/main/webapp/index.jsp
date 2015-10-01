@@ -10,7 +10,7 @@
     WebApplicationContext wac = WebApplicationContextUtils.getWebApplicationContext(request.getServletContext());
     GfQueryLogService gfQueryLogService = (GfQueryLogService)wac.getBean("gfQueryLogService") ;
 
-   out.println( request.getRemoteHost());
+
 %>
 <html>
 <meta http-equiv="refresh"content="5;url=index.jsp">

@@ -67,7 +67,7 @@ public class OrderServiceImpl extends BmfBaseServiceImpl<Order> implements Order
 
     @Override
     public void loadOrders(String cookie, String page) throws ParseException, IOException, InterruptedException {
-        Document doc = Jsoup.parse(orderList(cookie, null));
+        Document doc = Jsoup.parse(orderList(cookie, page));
         //Document doc = Jsoup.parse(new File("d:/abcd.html"),"UTF-8");
 
         Elements ListDiv = doc.getElementsByClass("a-box-group");
@@ -154,9 +154,11 @@ public class OrderServiceImpl extends BmfBaseServiceImpl<Order> implements Order
     }
 
     @Override
-    public PageList findPageData(String orderId, String status, String productId, String orderName, Date orderTime, String tag, Date deliveryDate, int pageNum, int pageSize) {
-        return null;
+    public PageList<Order> findPageData(Map<String, String> params, Integer pageNum, Integer pageSize) {
+        return this.orderDao.findPageData(params,pageNum,pageSize);  //To change body of implemented methods use File | Settings | File Templates.
     }
+
+
 
     public  String  shipTrack(List<OrderItem> list,String cookie) throws IOException, InterruptedException {
         PoolingHttpClientConnectionManager cm = new PoolingHttpClientConnectionManager();
