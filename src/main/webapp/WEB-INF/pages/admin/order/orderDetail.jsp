@@ -26,6 +26,7 @@
     <table id="list_table">
         <thead>
         <tr style="font-size: 100">
+            <th >No.</th>
             <th >trackId</th>
             <th >status</th>
             <th >deliveryDate</th>
@@ -33,8 +34,9 @@
         </tr>
         </thead>
         <tbody>
-        <c:forEach var="obj" items="${list}">
+        <c:forEach var="obj" items="${list}" varStatus="vs">
             <tr>
+                <td>${vs.count}</td>
                 <td>${obj.trackId}</td>
                 <td>${obj.status}</td>
                 <td><fmt:formatDate value="${obj.deliveryDate}" pattern="yyyy-MM-dd"/> </td>
@@ -48,7 +50,6 @@
 
 
 </div>
-
     <div id="footer"><span>Powered By</span></div>
 </div>
 

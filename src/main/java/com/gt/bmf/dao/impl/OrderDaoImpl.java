@@ -24,11 +24,11 @@ public class OrderDaoImpl extends BmfBaseDaoImpl<Order> implements OrderDao {
         List<Object> paramList = new ArrayList<Object>();
         if(StringUtils.isNotBlank(params.get("orderName"))) {
             hql+=" and orderName = ?";
-            paramList.add(params.get("orderName"));
+            paramList.add(params.get("orderName").trim());
         }
         if(StringUtils.isNotBlank(params.get("orderId"))) {
             hql+=" and id like ?";
-            paramList.add("%"+params.get("orderId")+"%");
+            paramList.add("%"+params.get("orderId").trim()+"%");
         }
           hql+=" order by orderTime desc, id desc";
        return  super.findPageData(hql,pageNum,pageSize,paramList.toArray());

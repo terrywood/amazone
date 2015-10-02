@@ -2,6 +2,7 @@ package com.gt.bmf.service.impl;
 
 import com.gt.bmf.common.page.PageList;
 import com.gt.bmf.dao.*;
+import com.gt.bmf.exception.BmfBaseException;
 import com.gt.bmf.pojo.GfQueryLog;
 import com.gt.bmf.pojo.Order;
 import com.gt.bmf.pojo.OrderItem;
@@ -69,7 +70,6 @@ public class OrderServiceImpl extends BmfBaseServiceImpl<Order> implements Order
     public void loadOrders(String cookie, String page) throws ParseException, IOException, InterruptedException {
         Document doc = Jsoup.parse(orderList(cookie, page));
         //Document doc = Jsoup.parse(new File("d:/abcd.html"),"UTF-8");
-
         Elements ListDiv = doc.getElementsByClass("a-box-group");
         for (Element element :ListDiv) {
             Elements links = element.getElementsByClass("value");
@@ -92,7 +92,7 @@ public class OrderServiceImpl extends BmfBaseServiceImpl<Order> implements Order
             for (Element shipment : shipments) {
                 String status =shipment.getElementsByTag("span").get(0).text();
                 if(status.equals("On the way")|| status.equals("Shipped") || status.equals("Delivered")) {
-                    System.out.println("href-------------------------------------------begin");
+                   // System.out.println("href-------------------------------------------begin");
                 /*   Elements as =shipment.getElementsByTag("a");
                     for(Element el : as){
                         System.out.println(el.html());
@@ -116,7 +116,7 @@ public class OrderServiceImpl extends BmfBaseServiceImpl<Order> implements Order
                         product = shipment.getElementsByTag("a").get(3);
                     }
 
-                    System.out.println("href-------------------------------------------end");
+                  //  System.out.println("href-------------------------------------------end");
                     String productLink = product.attr("href");
                     String productCode = StringUtils.substringBetween(productLink, "product/", "/");
                     if(productDao.get(productCode)==null){
@@ -216,7 +216,10 @@ public class OrderServiceImpl extends BmfBaseServiceImpl<Order> implements Order
             httpPost.addHeader("User-Agent", userAgent);
             response = httpclient.execute(httpPost);
             String responseBody = IOUtils.toString(response.getEntity().getContent(), Consts.UTF_8);
-            System.out.print(response.getStatusLine().getStatusCode());
+            int code = (response.getStatusLine().getStatusCode());
+            if(code!=200){
+                throw new BmfBaseException();
+            }
             return responseBody;
         } catch (IOException e) {
 

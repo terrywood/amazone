@@ -14,6 +14,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -43,11 +44,8 @@ public class AdminController {
                             @RequestParam(value = "pageSize", defaultValue = "20") Integer pageSize,
                             @RequestParam Map<String,String> params,
                             HttpServletRequest request) {
-
-
         Integer pageNum = offset/pageSize +1;
         PageList<Order> pageList = orderService.findPageData(params,pageNum, pageSize);
-
         request.setAttribute("pageList", pageList);
         request.setAttribute("params", params);
         request.setAttribute("products", productService.findAll());
@@ -76,6 +74,7 @@ public class AdminController {
 
 
     @RequestMapping(value = "/checkout", method = RequestMethod.POST)
+    @ResponseBody
     public String checkout(
                             @RequestParam(value = "cookie", defaultValue = "") String cookie,
                             @RequestParam(value = "page", defaultValue = "1") Integer page,
@@ -112,8 +111,10 @@ public class AdminController {
             }
             i++;
         }
-        return "redirect:orderList.do";
+        return "1";
     }
+
+
 
 
 }
