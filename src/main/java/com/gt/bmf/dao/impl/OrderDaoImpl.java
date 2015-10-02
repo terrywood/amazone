@@ -23,14 +23,14 @@ public class OrderDaoImpl extends BmfBaseDaoImpl<Order> implements OrderDao {
        String hql ="from Order where 1=1";
         List<Object> paramList = new ArrayList<Object>();
         if(StringUtils.isNotBlank(params.get("orderName"))) {
-            hql+=" and orderName like '%?%'";
+            hql+=" and orderName = ?";
             paramList.add(params.get("orderName"));
         }
-        if(StringUtils.isNotBlank(params.get("id"))) {
-            hql+=" and id like '%?%'";
-            paramList.add(params.get("id"));
+        if(StringUtils.isNotBlank(params.get("orderId"))) {
+            hql+=" and id like ?";
+            paramList.add("%"+params.get("orderId")+"%");
         }
-
+          hql+=" order by orderTime desc, id desc";
        return  super.findPageData(hql,pageNum,pageSize,paramList.toArray());
     }
 }

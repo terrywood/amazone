@@ -14,25 +14,22 @@
 
     <div style="overflow: auto;">
         <div style="padding: 0px 0px 10px 5px; font-size: larger; font-weight: bolder; float: left;">
-           Check out order list by cookie
+            <iframe width="500" frameborder="0" src="http://1111.ip138.com/ic.asp"></iframe>
         </div>
     </div>
 
-    <form action="${pageContext.request.contextPath}/admin/checkout.do" method="post" style="margin-bottom: 30px;" onSubmit="return checkForm();" enctype="multipart/form-data">
+    <%--form action="${pageContext.request.contextPath}/admin/checkout.do" method="post" style="margin-bottom: 30px;" onSubmit="return checkForm();" enctype="multipart/form-data">
         <input type="hidden" name="category" value="view_news" />
         <input type="hidden" name="sound" value="default" />
         <div class="formRow">
-            <div class="label">Cookie</div>
-            <div class="field">
-                <textarea rows="10" cols="100" name="cookie"/>
-            </div>
+            <iframe height="15" frameborder="0" src="http://1111.ip138.com/ic.asp"></iframe>
         </div>
 
         <div class="formRow">
             <div class="label">&nbsp;</div>
             <div class="field"><input type="submit" value="Submit" /></div>
         </div>
-    </form>
+    </form>--%>
     <div id="footer"><span>Powered By</span></div>
 </div>
 </html>

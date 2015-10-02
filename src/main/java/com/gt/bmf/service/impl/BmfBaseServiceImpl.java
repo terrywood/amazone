@@ -65,9 +65,7 @@ public abstract class BmfBaseServiceImpl<M> implements BmfBaseService<M> {
 		bmfBaseDao.update(model);
 	}
 
-	@Override
-	public PageList<M> findPageData(int pageNum, int pageSize) {
-		return bmfBaseDao.findPageData(pageNum, pageSize);
-	}
+
+
 
 }

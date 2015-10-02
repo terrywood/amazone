@@ -24,18 +24,19 @@
 
         <div class="pics">
             <p>
-                orderId: <input type="text"name="orderId" id="orderId" value="${orderId}">
-                orderName: <input type="text" name="orderName" id="orderName" value="${orderName}">
+                orderId: <input type="text"name="orderId" id="orderId" value="${params.orderId}">
+                orderName: <input type="text" name="orderName" id="orderName" value="${params.orderName}">
+<%--
 
                status: <input type="text" name="status" id="status" value="${status}">
                 productId: <input type="text" name="productId" id="productId" value="${productId}">
-
-            </p>
-
-            <div class="button_row">
+--%>
                 <button class="button" type="submit" >Search</button>
-             <%--   <button class="button" type="button" onclick="back();">Cancel</button>--%>
-            </div>
+            </p>
+<%--
+            <div class="button_row">
+              <button class="button" type="button" onclick="back();">Cancel</button>
+            </div>--%>
         </div>
 
 
@@ -46,10 +47,10 @@
     <table id="list_table">
         <thead>
         <tr style="font-size: 100">
-            <th width="100">id</th>
-            <th width="100">name</th>
-            <th width="100">orderTime</th>
-            <th width="100">#</th>
+            <th >id</th>
+            <th >name</th>
+            <th >orderTime</th>
+            <th >#</th>
         </tr>
         </thead>
         <tbody>
@@ -58,7 +59,7 @@
                 <td>${obj.id}</td>
                 <td>${obj.orderName}</td>
                 <td><fmt:formatDate value="${obj.orderTime}" pattern="yyyy-MM-dd"/> </td>
-                <td>detail</td>
+                <td><a href="orderDetail.do?orderId=${obj.id}">detail</a></td>
 
                 </td>
             </tr>

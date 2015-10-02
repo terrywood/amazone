@@ -27,6 +27,18 @@
                 <textarea style="width: 600px" rows="10"  name="cookie"></textarea>
             </div>
         </div>
+        <div class="formRow">
+            <div class="label">Page</div>
+            <div class="field">
+                <select name="page">
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                </select>
+            </div>
+        </div>
 
         <div class="formRow">
             <div class="label">&nbsp;</div>

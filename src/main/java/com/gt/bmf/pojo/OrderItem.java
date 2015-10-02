@@ -1,9 +1,6 @@
 package com.gt.bmf.pojo;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
 
@@ -29,6 +26,17 @@ public class OrderItem implements Serializable {
     private String orderId;
     private String shipmentLink;
     private String status;
+
+    private Product product;
+
+
+    public Product getProduct() {
+        return product;
+    }
+
+    public void setProduct(Product product) {
+        this.product = product;
+    }
 
     @org.hibernate.annotations.Type(type = "yes_no")
     private Boolean tag;

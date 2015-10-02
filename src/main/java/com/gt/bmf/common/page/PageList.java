@@ -17,7 +17,7 @@ public class PageList<E> implements Serializable {
 
 	private int totalItems;
 
-	private int totalPages;
+        private int totalPages;
 
 	public PageList() {
 	}
