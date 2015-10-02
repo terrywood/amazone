@@ -88,9 +88,10 @@ public class AdminController {
     @RequestMapping(value = "/updateOrderDetail")
     public String updateOrderDetail(
             @RequestParam(value = "items", defaultValue = "") Long[] items,
+            @RequestParam(value = "orderId", defaultValue = "") String orderId,
             HttpServletRequest request) {
 
-
+        orderService.updateOrderItemTag( orderId ,false);
         for(Long id :items){
             OrderItem item= orderService.findItemByItemId(id);
             if(item!=null){
@@ -98,11 +99,19 @@ public class AdminController {
                 orderService.updateOrderItem(item);
             }
         }
-
-
-
-
         return "redirect:orderList.do";
+    }
+    @ResponseBody
+    @RequestMapping(value = "/updateOrderTag")
+    public String updateOrderTag(
+            @RequestParam Map<String,String> params,
+            HttpServletRequest request) {
+      System.out.println(params);
+        for(String id :params.keySet()){
+            orderService.updateOrderItemTagByItemId( Long.valueOf(id) ,Boolean.valueOf(params.get(id)));
+        }
+        String str="{\"code\":\"200\"}";
+        return str;
     }
 
     @ResponseBody

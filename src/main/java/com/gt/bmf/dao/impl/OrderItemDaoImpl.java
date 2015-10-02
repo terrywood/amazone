@@ -39,4 +39,14 @@ public class OrderItemDaoImpl extends BmfBaseDaoImpl<OrderItem> implements Order
         hql+=" order by a.deliveryDate desc, b.id desc";
         return  super.findPageData(hql,pageNum,pageSize,paramList.toArray());
     }
+
+    @Override
+    public void updateOrderItemTag(String orderId, boolean b) {
+        super.executeByHQL("update OrderItem set tag =? where orderId=?",b,orderId);
+    }
+
+    @Override
+    public void updateOrderItemTagByItemId(Long itemId, boolean b) {
+        super.executeByHQL("update OrderItem set tag =? where id=?",b,itemId);
+    }
 }

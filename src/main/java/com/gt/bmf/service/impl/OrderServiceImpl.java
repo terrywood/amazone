@@ -174,6 +174,16 @@ public class OrderServiceImpl extends BmfBaseServiceImpl<Order> implements Order
         orderItemDao.update(item);
     }
 
+    @Override
+    public void updateOrderItemTag(String orderId, boolean b) {
+        orderItemDao.updateOrderItemTag(orderId,b);
+    }
+
+    @Override
+    public void updateOrderItemTagByItemId(Long itemId, boolean b) {
+        orderItemDao.updateOrderItemTagByItemId(itemId, b);
+    }
+
 
     public  String  shipTrack(List<OrderItem> list,String cookie) throws IOException, InterruptedException {
         PoolingHttpClientConnectionManager cm = new PoolingHttpClientConnectionManager();

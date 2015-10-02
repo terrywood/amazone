@@ -10,4 +10,6 @@ import java.util.Map;
 public interface OrderItemDao extends BmfBaseDao<OrderItem> {
     public List<OrderItem> findItemByOrderId(String orderId);
     public PageList findOrderItemPageData(Map<String,String> params, Integer pageNum, Integer pageSize);
+    void updateOrderItemTag(String orderId, boolean b);
+    void updateOrderItemTagByItemId(Long itemId, boolean b);
 }

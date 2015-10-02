@@ -8,7 +8,40 @@
     <meta name="description" content="" />
     <%@ include file="/include.inc.jsp"%>
     <%@ include file="/include.js.jsp"%>
+    <script type="text/javascript">
+        function selFn(){
+            if($("#btn1").is(':checked')){
+                $("[name='items']").prop("checked",true);
+            } else{
+                $("[name='items']").prop("checked",false);
+            }
+
+        }
+        function updateStatus(){
+            var params ={};
+            $("[name='items']").each(function(){
+                var id = ($(this).val());
+                var status = ($(this).prop("checked"));
+                params[id]=status;
+            });
+           var str = jQuery.param(params);
+            $.ajax({
+                type: "POST",
+                url: "${pageContext.request.contextPath}/admin/updateOrderTag.do",
+                data: str,
+                dataType: 'json',
+                success: function(data){
+                    if(data.message)  {
+                        alert(data.message);
+                    }else{
+                        window.location.reload();
+                    }
+                }
+            });
+        }
+    </script>
 </head>
+<body>
 <%@ include file="../topBar.jsp"%>
 <div id="bodyContainer">
 <%--<div style="overflow: auto;">
@@ -30,6 +63,7 @@
                 productId: <input type="text" name="productId" id="productId" value="${productId}">
 --%>
                 <button class="button" type="submit" >Search</button>
+                <button class="button" type="button" onclick="updateStatus()">Update</button>
             </p>
 <%--
             <div class="button_row">
@@ -46,10 +80,11 @@
             <th ><input type="checkbox" value="all" id="btn1" onclick="selFn()"/></th>
             <th >No.</th>
             <th >trackId</th>
-            <th >status</th>
+            <th >OrderId</th>
+
             <th >deliveryDate</th>
             <th >product</th>
-            <th >OrderId</th>
+            <th >status</th>
             <th >orderTime</th>
             <th >orderName</th>
         </tr>
@@ -58,18 +93,18 @@
         <c:forEach var="obj" items="${pageList.data}" varStatus="vs">
             <tr>
                 <td>
-                    <input type="checkbox" value="${obj[7]}" name="items" <c:if test="${obj[8]}">checked="checked"</c:if> /></td>
+                    <input type="checkbox" value="${obj[7]}" name="items" <c:if test="${obj[8]}">checked="checked"</c:if> />
+                </td>
                 <td>${vs.count}</td>
                 <td>${obj[0]}</td>
-                <td>${obj[1]}</td>
+                <td>${obj[4]}</td>
+
                 <td><fmt:formatDate value="${obj[2]}" pattern="yyyy-MM-dd"/></td>
                 <td>${obj[3]}</td>
-                <td>${obj[4]}</td>
+                <td>${obj[1]}</td>
                 <td><fmt:formatDate value="${obj[5]}" pattern="yyyy-MM-dd"/></td>
                 <td>${obj[6]}</td>
 
-                <td> </td>
-                </td>
             </tr>
         </c:forEach>
         </tbody>
@@ -94,9 +129,8 @@
 
 
 </div>
-
     <div id="footer"><span>Powered By</span></div>
 </div>
 
-
+</body>
 </html>

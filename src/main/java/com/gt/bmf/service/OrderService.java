@@ -21,4 +21,8 @@ public interface OrderService extends BmfBaseService<Order> {
     public PageList findOrderItemPageData(Map<String,String> params, Integer pageNum, Integer pageSize);
 
     void updateOrderItem(OrderItem item);
+
+    void updateOrderItemTag(String orderId, boolean b);
+
+    void updateOrderItemTagByItemId(Long itemId, boolean b);
 }

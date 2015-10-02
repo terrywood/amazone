@@ -27,16 +27,17 @@ table tr td,table tr th {
 	padding: 5px;
 }
 
+
 .listview table thead tr th {
 	border-bottom: 1px dotted #CCC;
 }
 
 .listview table tbody tr:nth-child(even) {
-	background-color: #FAFAFA;
+	background-color: #EEEEFF;
 }
 
 .listview table tbody tr:hover {
-	background-color: #EEEEFF;
+	background-color: #00FFFF;
 }
 
 .listview table tfoot tr td {

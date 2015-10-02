@@ -81,8 +81,8 @@
                         window.location='orderList.do';
                     }
                 }
-
             });
+
             //$("span").text("Not valid!").show().fadeOut(1000);
             return false;
         });
