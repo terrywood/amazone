@@ -27,6 +27,9 @@ public class OrderItem implements Serializable {
     private String shipmentLink;
     private String status;
 
+    @org.hibernate.annotations.Type(type = "yes_no")
+    private Boolean tag;
+
     private Product product;
 
 
@@ -38,8 +41,6 @@ public class OrderItem implements Serializable {
         this.product = product;
     }
 
-    @org.hibernate.annotations.Type(type = "yes_no")
-    private Boolean tag;
 
     public String getStatus() {
         return status;

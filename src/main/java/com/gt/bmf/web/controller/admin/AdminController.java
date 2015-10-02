@@ -53,8 +53,22 @@ public class AdminController {
         PageList<Order> pageList = orderService.findPageData(params,pageNum, pageSize);
         request.setAttribute("pageList", pageList);
         request.setAttribute("params", params);
-        request.setAttribute("products", productService.findAll());
+       // request.setAttribute("products", productService.findAll());
         return "/admin/order/list";
+    }
+
+    @RequestMapping("/orderItemList")
+    public String orderItemList(
+                            @RequestParam(value = "pager.offset", defaultValue = "0") Integer offset,
+                            @RequestParam(value = "pageSize", defaultValue = "20") Integer pageSize,
+                            @RequestParam Map<String,String> params,
+                            HttpServletRequest request) {
+        Integer pageNum = offset/pageSize +1;
+        PageList pageList = orderService.findOrderItemPageData(params,pageNum,pageSize);
+        request.setAttribute("pageList", pageList);
+        request.setAttribute("params", params);
+      //  request.setAttribute("products", productService.findAll());
+        return "/admin/order/orderItemList";
     }
 
 

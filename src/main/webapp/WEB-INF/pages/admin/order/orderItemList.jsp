@@ -20,14 +20,12 @@
     </div>
 </div>--%>
 <div class="list-div">
-    <form action="orderList.do" method="post" id="list_form">
-
+    <form action="orderItemList.do" method="post" id="list_form">
         <div class="pics">
             <p>
                 orderId: <input type="text"name="orderId" id="orderId" value="${params.orderId}">
                 orderName: <input type="text" name="orderName" id="orderName" value="${params.orderName}">
 <%--
-
                status: <input type="text" name="status" id="status" value="${status}">
                 productId: <input type="text" name="productId" id="productId" value="${productId}">
 --%>
@@ -38,8 +36,6 @@
               <button class="button" type="button" onclick="back();">Cancel</button>
             </div>--%>
         </div>
-
-
     </form>
 </div>
 
@@ -47,21 +43,32 @@
     <table id="list_table">
         <thead>
         <tr style="font-size: 100">
-            <th >NO.</th>
-            <th >id</th>
-            <th >name</th>
+            <th ><input type="checkbox" value="all" id="btn1" onclick="selFn()"/></th>
+            <th >No.</th>
+            <th >trackId</th>
+            <th >status</th>
+            <th >deliveryDate</th>
+            <th >product</th>
+            <th >OrderId</th>
             <th >orderTime</th>
-            <th >#</th>
+            <th >orderName</th>
         </tr>
         </thead>
         <tbody>
         <c:forEach var="obj" items="${pageList.data}" varStatus="vs">
             <tr>
+                <td>
+                    <input type="checkbox" value="${obj[7]}" name="items" <c:if test="${obj[8]}">checked="checked"</c:if> /></td>
                 <td>${vs.count}</td>
-                <td>${obj.id}</td>
-                <td>${obj.orderName}</td>
-                <td><fmt:formatDate value="${obj.orderTime}" pattern="yyyy-MM-dd"/> </td>
-                <td><a href="orderDetail.do?orderId=${obj.id}">Show Detail</a></td>
+                <td>${obj[0]}</td>
+                <td>${obj[1]}</td>
+                <td><fmt:formatDate value="${obj[2]}" pattern="yyyy-MM-dd"/></td>
+                <td>${obj[3]}</td>
+                <td>${obj[4]}</td>
+                <td><fmt:formatDate value="${obj[5]}" pattern="yyyy-MM-dd"/></td>
+                <td>${obj[6]}</td>
+
+                <td> </td>
                 </td>
             </tr>
         </c:forEach>
@@ -69,7 +76,7 @@
     </table>
 
     <div id="paginationDiv">
-        <pg:pager url="orderList.do"
+        <pg:pager url="orderItemList.do"
                   items="${pageList.totalItems}"
                   maxPageItems="20"
                   maxIndexPages="10"
