@@ -59,8 +59,7 @@
                 <td>${obj.id}</td>
                 <td>${obj.orderName}</td>
                 <td><fmt:formatDate value="${obj.orderTime}" pattern="yyyy-MM-dd"/> </td>
-                <td><a href="orderDetail.do?orderId=${obj.id}">detail</a></td>
-
+                <td><a href="orderDetail.do?orderId=${obj.id}">Show Detail</a></td>
                 </td>
             </tr>
         </c:forEach>

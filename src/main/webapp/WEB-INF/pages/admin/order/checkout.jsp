@@ -8,7 +8,15 @@
     <meta name="description" content="" />
     <%@ include file="/include.inc.jsp"%>
     <%@ include file="/include.js.jsp"%>
+    <style type="text/css">
+        .myns > div {
+            box-shadow: 0 0 6px black, inset 0 0 6px black;
+        }
+    </style>
 </head>
+<body>
+
+
 <%@ include file="../topBar.jsp"%>
 <div id="bodyContainer">
 
@@ -24,7 +32,7 @@
         <div class="formRow">
             <div class="label">Cookie</div>
             <div class="field">
-                <textarea style="width: 600px" rows="10"  name="cookie"></textarea>
+                <textarea style="width: 600px;height:100px" rows="20"  name="cookie"></textarea>
             </div>
         </div>
         <div class="formRow">
@@ -37,6 +45,7 @@
                     <option value="4">4</option>
                     <option value="5">5</option>
                 </select>
+
             </div>
         </div>
 
@@ -44,7 +53,39 @@
             <div class="label">&nbsp;</div>
             <div class="field"><input type="submit" value="Submit" /></div>
         </div>
+        <div class="">
+           <div id="shclNs"></div>
+        </div>
     </form>
     <div id="footer"><span>Powered By</span></div>
-</div>
+</div></body>
 </html>
+
+<script>
+    $(document).ready(function () {
+        $("form").submit(function(event) {
+            $('#shclNs').show();
+            $('#shclNs').shCircleLoader({namespace:"myns",color:"transparent",dotsRadius:15});
+            event.preventDefault();
+            var str = $("form").serialize();
+            $.ajax({
+                type: "POST",
+                url: "${pageContext.request.contextPath}/admin/checkout.do",
+                data: str,
+                dataType: 'json',
+                success: function(data){
+                    if(data.message)  {
+                        alert(data.message);
+                        $('#shclNs').hide();
+                    }else{
+                        window.location='orderList.do';
+                    }
+                }
+
+            });
+            //$("span").text("Not valid!").show().fadeOut(1000);
+            return false;
+        });
+    });
+
+</script>

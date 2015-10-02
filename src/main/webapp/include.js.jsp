@@ -5,3 +5,4 @@
 <script src="${pageContext.request.contextPath}/static/js/jquery.min.js"></script>
 <script src="${pageContext.request.contextPath}/static/js/jquery-ui.min.js"></script>
 <script src="${pageContext.request.contextPath}/static/js/jquery-ui-sliderAccess.min.js"></script>
+<script src="${pageContext.request.contextPath}/static/js/shCircleLoader/jquery.shCircleLoader.js" type="text/javascript"></script>

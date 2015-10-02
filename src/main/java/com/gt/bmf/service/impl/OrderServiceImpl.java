@@ -3,38 +3,30 @@ package com.gt.bmf.service.impl;
 import com.gt.bmf.common.page.PageList;
 import com.gt.bmf.dao.*;
 import com.gt.bmf.exception.BmfBaseException;
-import com.gt.bmf.pojo.GfQueryLog;
 import com.gt.bmf.pojo.Order;
 import com.gt.bmf.pojo.OrderItem;
 import com.gt.bmf.pojo.Product;
-import com.gt.bmf.service.GfQueryLogService;
 import com.gt.bmf.service.OrderService;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.http.Consts;
-import org.apache.http.NameValuePair;
-import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.impl.conn.PoolingHttpClientConnectionManager;
-import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.protocol.BasicHttpContext;
 import org.apache.http.protocol.HttpContext;
-import org.codehaus.jackson.map.ObjectMapper;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
-import java.io.File;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -163,10 +155,19 @@ public class OrderServiceImpl extends BmfBaseServiceImpl<Order> implements Order
     }
 
     @Override
+    public OrderItem findItemByItemId(Long itemId) {
+        return orderItemDao.get(itemId);  //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    @Override
     public PageList<Order> findPageData(Map<String, String> params, Integer pageNum, Integer pageSize) {
         return this.orderDao.findPageData(params,pageNum,pageSize);  //To change body of implemented methods use File | Settings | File Templates.
     }
 
+    @Override
+    public void updateOrderItem(OrderItem item) {
+        orderItemDao.update(item);
+    }
 
 
     public  String  shipTrack(List<OrderItem> list,String cookie) throws IOException, InterruptedException {
@@ -217,8 +218,8 @@ public class OrderServiceImpl extends BmfBaseServiceImpl<Order> implements Order
             response = httpclient.execute(httpPost);
             String responseBody = IOUtils.toString(response.getEntity().getContent(), Consts.UTF_8);
             int code = (response.getStatusLine().getStatusCode());
-            if(code!=200){
-                throw new BmfBaseException();
+            if(code==302){
+                throw new BmfBaseException("302","cookie invalid");
             }
             return responseBody;
         } catch (IOException e) {
