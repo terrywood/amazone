@@ -30,9 +30,12 @@
         <input type="hidden" name="category" value="view_news" />
         <input type="hidden" name="sound" value="default" />
         <div class="formRow">
-            <div class="label">Cookie</div>
+            <div class="label">Cookie<br>
+                <span style="font-style: normal;color: greenyellow">document.cookie </span>
+            </div>
             <div class="field">
                 <textarea style="width: 600px;height:100px" rows="20"  name="cookie"></textarea>
+
             </div>
         </div>
         <div class="formRow">

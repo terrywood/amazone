@@ -52,6 +52,7 @@
             <th >Product</th>
             <th >ItemCount/Total</th>
             <th >Name</th>
+            <th >DeliveryDate</th>
             <th >OrderTime</th>
             <th >#</th>
         </tr>
@@ -62,10 +63,11 @@
                 <td>${vs.count}</td>
                 <td>${obj.id}</td>
                 <td>${obj.orderItems[0].product.aliasName}</td>
-                <td> ${fn:length(obj.orderItems)}/</td>
+                <td <c:if test="${fn:length(obj.orderItems)!=obj.totalItem}"> style="color: red" </c:if>  > ${fn:length(obj.orderItems)}/${obj.totalItem}</td>
                 <td>${obj.orderName}</td>
+                <td><fmt:formatDate value="${obj.orderItems[0].deliveryDate}" pattern="yyyy-MM-dd"/> </td>
                 <td><fmt:formatDate value="${obj.orderTime}" pattern="yyyy-MM-dd"/> </td>
-                <td><a href="orderDetail.do?orderId=${obj.id}&searchOrderId=${param.orderId}&serarchOrdername=${param.orderName}">Show Detail</a></td>
+                <td><a href="orderDetail.do?orderId=${obj.id}&searchOrderId=${param.orderId}&searchOrderName=${param.orderName}">Show Detail</a></td>
             </tr>
         </c:forEach>
         </tbody>

@@ -80,14 +80,14 @@
         <tr style="font-size: 100">
             <th ><input type="checkbox" value="all" id="btn1" onclick="selFn()"/></th>
             <th >No.</th>
-            <th >trackId</th>
+            <th >TrackId</th>
             <th >OrderId</th>
 
-            <th >deliveryDate</th>
-            <th >product</th>
-            <th >status</th>
-            <th >orderTime</th>
-            <th >orderName</th>
+            <th >DeliveryDate</th>
+            <th >Product</th>
+            <th >Status</th>
+            <th >OrderTime</th>
+            <th >OrderName</th>
         </tr>
         </thead>
         <tbody>

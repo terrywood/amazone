@@ -24,10 +24,21 @@ public class Order implements Serializable {
     private Integer totalItem;
 
     @Transient
+    private String orderLink;
+
+    @Transient
     private List<OrderItem> orderItems = new ArrayList<OrderItem>();
 
     public List<OrderItem> getOrderItems() {
         return orderItems;
+    }
+
+    public String getOrderLink() {
+        return orderLink;
+    }
+
+    public void setOrderLink(String orderLink) {
+        this.orderLink = orderLink;
     }
 
     public Integer getTotalItem() {

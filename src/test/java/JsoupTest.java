@@ -69,7 +69,7 @@ public class JsoupTest {
                        String name = shipment.getElementsByTag("a").get(4).text();
 
                         String trackId= "";
-                                //  String trackId= jsoupTest.shipTrack(href);
+                                //  String trackId= jsoupTest.loadTrack(href);
                         System.out.println(name+","+trackId);
                         String [] record = new String[4];
                         record[0] =orderId;

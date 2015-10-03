@@ -5,7 +5,6 @@ import com.gt.bmf.dao.*;
 import com.gt.bmf.exception.BmfBaseException;
 import com.gt.bmf.pojo.Order;
 import com.gt.bmf.pojo.OrderItem;
-import com.gt.bmf.pojo.Product;
 import com.gt.bmf.service.OrderService;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringUtils;
@@ -59,25 +58,42 @@ public class OrderServiceImpl extends BmfBaseServiceImpl<Order> implements Order
 
 
     @Override
-    public void loadOrders(String cookie, String page) throws ParseException, IOException, InterruptedException {
+    public void loadOrders(String cookie, String page) throws IOException, InterruptedException {
         Document doc = Jsoup.parse(orderList(cookie, page));
         //Document doc = Jsoup.parse(new File("d:/abcd.html"),"UTF-8");
         Elements ListDiv = doc.getElementsByClass("a-box-group");
+        List<Order> orders = new ArrayList<Order>();
         for (Element element :ListDiv) {
-            Elements links = element.getElementsByClass("value");
-            String orderDate = links.get(0).text().trim();
-            String orderName = links.get(2).text().trim();
-            String orderId = links.get(3).text().trim();
-            //System.out.println("orderId-"+orderId);
+            Elements orderInfo = element.getElementsByClass("order-info");
+            Elements value = orderInfo.get(0).getElementsByClass("value");
+            String orderDate = value.get(0).text().trim();
+            String orderName = value.get(2).text().trim();
+            String orderId = value.get(3).text().trim();
+
+
+
+
             Order order = orderDao.get(orderId);
             if(order ==null){
                 order = new Order();
                 order.setCreateTime(new Date());
                 order.setId(orderId);
                 order.setOrderName(orderName);
-                order.setOrderTime(dateformat1.parse(orderDate));
+                try {
+                    order.setOrderTime(dateformat1.parse(orderDate));
+                } catch (ParseException e) {
+                    e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                }
                 orderDao.save(order);
             }
+
+
+             if(order.getTotalItem()==null|| order.getTotalItem()<1){
+                 String link =  orderInfo.get(0).getElementsByTag("a").last().attr("href");
+                 order.setOrderLink(link);
+                 orders.add(order);
+             }
+
 
             List<OrderItem> list = new ArrayList<OrderItem>();
             Elements shipments = element.getElementsByClass("shipment");
@@ -94,24 +110,35 @@ public class OrderServiceImpl extends BmfBaseServiceImpl<Order> implements Order
                     String shipmentId = StringUtils.substringAfterLast(href,"shipmentId=");
                     Date delivery = null ;
                     Element product =null;
+
+
                     if(status.equals("Delivered")){
                            String as =shipment.getElementsByTag("span").get(1).text();
                            if(as.startsWith("Delivered on")){
-                               delivery = dateformat2.parse( StringUtils.remove(as,"Delivered on:").trim());
+                               try {
+                                   delivery = dateformat2.parse( StringUtils.remove(as,"Delivered on:").trim());
+                               } catch (ParseException e) {
+                                   e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                               }
                            }else{
                                System.out.println("can not get status by shipment id["+shipmentId+"]");
                            }
 
                         product = shipment.getElementsByTag("a").get(2);
                     }else{
-                        delivery =dateformat2.parse(shipment.getElementsByTag("span").get(2).text());
+                        try {
+                            delivery =dateformat2.parse(shipment.getElementsByTag("span").get(2).text());
+                        } catch (ParseException e){
+                           e.printStackTrace();
+                        }
                         product = shipment.getElementsByTag("a").get(3);
                     }
-
                   //  System.out.println("href-------------------------------------------end");
                     String productLink = product.attr("href");
                     String productCode = StringUtils.substringBetween(productLink, "product/", "/");
-                    if(productDao.get(productCode)==null){
+
+                    //product no need always fetch.
+        /*            if(productDao.get(productCode)==null){
                         Element image = product.child(0);
                         String productName = image.attr("title");
                         Product model =new Product();
@@ -119,7 +146,8 @@ public class OrderServiceImpl extends BmfBaseServiceImpl<Order> implements Order
                         model.setName(productName);
                         model.setImage(image.attr("src"));
                         productDao.save(model);
-                    }
+                    }*/
+
                     OrderItem item = orderItemDao.findUnique("from OrderItem where shipmentId=?",shipmentId);
                     if(item==null){
                         item = new OrderItem();
@@ -140,9 +168,10 @@ public class OrderServiceImpl extends BmfBaseServiceImpl<Order> implements Order
                     }
                 }
             }
-
-            shipTrack(list,cookie);
+            loadTrack(list, cookie);
         }
+
+         loadOrderTotalItem(orders,cookie);
     }
 
     @Override
@@ -189,18 +218,50 @@ public class OrderServiceImpl extends BmfBaseServiceImpl<Order> implements Order
     }
 
 
-    public  String  shipTrack(List<OrderItem> list,String cookie) throws IOException, InterruptedException {
+    public  String loadOrderTotalItem(List<Order> list, String cookie) throws IOException, InterruptedException {
         PoolingHttpClientConnectionManager cm = new PoolingHttpClientConnectionManager();
         cm.setMaxTotal(100);
         CloseableHttpClient  httpclient = HttpClients.custom().setConnectionManager(cm) .build();
         try {
-            GetThread[] threads = new GetThread[list.size()];
+            GetOrderThread[] threads = new GetOrderThread[list.size()];
+            for(int i=0;i<list.size();i++){
+                Order item =list.get(i);
+                HttpGet httpget = new HttpGet(url+item.getOrderLink());
+                httpget.addHeader("Cookie",cookie);
+                httpget.addHeader("User-Agent",userAgent);
+                threads[i] = new GetOrderThread(httpclient, httpget, i + 1,item);
+            }
+            for (int j = 0; j < threads.length; j++) {
+                threads[j].start();
+            }
+            for (int j = 0; j < threads.length; j++) {
+                threads[j].join();
+            }
+
+            for (int j = 0; j < threads.length; j++) {
+                Order entity = threads[j].getOrder();
+                if(entity.getTotalItem()!=null){
+                    orderDao.saveOrUpdate(entity);
+                }
+            }
+        } finally {
+            httpclient.close();
+        }
+
+        return null;
+    }
+    public  String loadTrack(List<OrderItem> list, String cookie) throws IOException, InterruptedException {
+        PoolingHttpClientConnectionManager cm = new PoolingHttpClientConnectionManager();
+        cm.setMaxTotal(100);
+        CloseableHttpClient  httpclient = HttpClients.custom().setConnectionManager(cm) .build();
+        try {
+            GetOrderItemThread[] threads = new GetOrderItemThread[list.size()];
             for(int i=0;i<list.size();i++){
                 OrderItem item =list.get(i);
                 HttpGet httpget = new HttpGet(url+item.getShipmentLink());
                 httpget.addHeader("Cookie",cookie);
                 httpget.addHeader("User-Agent",userAgent);
-                threads[i] = new GetThread(httpclient, httpget, i + 1,item);
+                threads[i] = new GetOrderItemThread(httpclient, httpget, i + 1,item);
             }
             for (int j = 0; j < threads.length; j++) {
                 threads[j].start();
@@ -218,7 +279,6 @@ public class OrderServiceImpl extends BmfBaseServiceImpl<Order> implements Order
         } finally {
             httpclient.close();
         }
-
 
         return null;
     }
@@ -250,14 +310,14 @@ public class OrderServiceImpl extends BmfBaseServiceImpl<Order> implements Order
     }
 
 
-    static class GetThread extends Thread {
+    static class GetOrderItemThread extends Thread {
 
         private  OrderItem orderItem;
         private final CloseableHttpClient httpClient;
         private final HttpContext context;
         private final HttpGet httpget;
         private final int id;
-        public GetThread(CloseableHttpClient httpClient, HttpGet httpget, int id, OrderItem orderItem) {
+        public GetOrderItemThread(CloseableHttpClient httpClient, HttpGet httpget, int id, OrderItem orderItem) {
             this.httpClient = httpClient;
             this.context = new BasicHttpContext();
             this.httpget = httpget;
@@ -274,9 +334,7 @@ public class OrderServiceImpl extends BmfBaseServiceImpl<Order> implements Order
             this.orderItem = orderItem;
         }
 
-        /**
-         * Executes the GetMethod and prints some status information.
-         */
+
         @Override
         public void run() {
             try {
@@ -285,13 +343,61 @@ public class OrderServiceImpl extends BmfBaseServiceImpl<Order> implements Order
                      System.out.println(id + " - get executed");
                      String responseBody = IOUtils.toString(response.getEntity().getContent(), Consts.UTF_8);
                      Document doc = Jsoup.parse(responseBody);
-
                     Elements ListDiv = doc.getElementsByClass("ship-track-grid-subtext");
                     for (Element element :ListDiv) {
                         String trackId = StringUtils.substringAfterLast(element.text(),"#:").trim();
                         orderItem.setTrackId(trackId);
                     }
+                } catch (Exception e) {
+                   e.printStackTrace();
+                } finally {
+                    response.close();
+                }
+            } catch (Exception e) {
+                System.out.println(id + " - error: " + e);
+            }
+        }
 
+    }
+
+    static class GetOrderThread extends Thread {
+
+        private  Order order;
+        private final CloseableHttpClient httpClient;
+        private final HttpContext context;
+        private final HttpGet httpget;
+        private final int id;
+        public GetOrderThread(CloseableHttpClient httpClient, HttpGet httpget, int id, Order order) {
+            this.httpClient = httpClient;
+            this.context = new BasicHttpContext();
+            this.httpget = httpget;
+            this.id = id;
+            this.order = order;
+
+        }
+
+        Order getOrder() {
+            return order;
+        }
+
+
+
+        @Override
+        public void run() {
+            try {
+                CloseableHttpResponse response = httpClient.execute(httpget, context);
+                try {
+                     System.out.println(id + " - get executed");
+                     String responseBody = IOUtils.toString(response.getEntity().getContent(), Consts.UTF_8);
+                     Document doc = Jsoup.parse(responseBody);
+                     Integer total =-1;
+                    Elements ListDiv = doc.getElementsByTag("input");
+                    for (Element element :ListDiv) {
+                         String value =element.attr("value");
+                        // System.out.println("value---"+value);
+                        total+=Integer.valueOf(value);
+                    }
+                    order.setTotalItem(total);
                 } catch (Exception e) {
                    e.printStackTrace();
                 } finally {
