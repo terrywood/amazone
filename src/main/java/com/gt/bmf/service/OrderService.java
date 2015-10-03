@@ -23,6 +23,6 @@ public interface OrderService extends BmfBaseService<Order> {
     void updateOrderItem(OrderItem item);
 
     void updateOrderItemTag(String orderId, boolean b);
-
+    public void loadOneOrder(String cookie, String orderId) throws IOException, InterruptedException;
     void updateOrderItemTagByItemId(Long itemId, boolean b);
 }

@@ -35,7 +35,6 @@
             </div>
             <div class="field">
                 <textarea style="width: 600px;height:100px" rows="20"  name="cookie"></textarea>
-
             </div>
         </div>
         <div class="formRow">
@@ -51,10 +50,16 @@
 
             </div>
         </div>
-        <div class="formRow">
+<%--        <div class="formRow">
             <div class="label">Date</div>
             <div class="field">
                  <input id="time">
+            </div>
+        </div>--%>
+        <div class="formRow">
+            <div class="label">OrderId</div>
+            <div class="field">
+                 <input type="text" id="orderId" name="orderId">
             </div>
         </div>
         <div class="formRow">

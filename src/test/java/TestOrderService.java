@@ -33,8 +33,8 @@ public class TestOrderService {
 
       //  for(String url :urls)
       //  service.loadOrders(cookie,url);
-        service.loadOrders(cookie,"https://www.amazon.co.jp/gp/css/order-history/ref=nav__gno_yam_yrdrs");
-
+       // service.loadOrders(cookie,"https://www.amazon.co.jp/gp/css/order-history/ref=nav__gno_yam_yrdrs");
+        service.loadOneOrder(cookie,"250-6151182-0937433");
         Map<String,String> params =new HashMap<String,String>();
       //  service.findOrderItemPageData(params,1,10);
         System.exit(0);

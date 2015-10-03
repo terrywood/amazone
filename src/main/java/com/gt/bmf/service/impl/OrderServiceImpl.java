@@ -57,7 +57,121 @@ public class OrderServiceImpl extends BmfBaseServiceImpl<Order> implements Order
     }
 
 
-    @Override
+
+    public void loadOneOrder(String cookie, String orderId) throws IOException, InterruptedException {
+        Document doc = Jsoup.parse(orderList(cookie, "https://www.amazon.co.jp/gp/your-account/order-details?ie=UTF8&orderID="+orderId));
+        Elements ListDiv = doc.getElementsByClass("a-box-group");
+        List<Order> orders = new ArrayList<Order>();
+        for (Element element :ListDiv) {
+    /*        Elements orderInfo = element.getElementsByClass("order-info");
+            Elements value = orderInfo.get(0).getElementsByClass("value");
+            String orderDate = value.get(0).text().trim();
+            String orderName = value.get(2).text().trim();
+            String orderId = value.get(3).text().trim();*/
+
+            Order order = orderDao.get(orderId);
+            if(order ==null){
+                String  orderName = doc.getElementsByClass("displayAddressFullName").first().text();
+                String  orderDate = doc.getElementsByClass("order-date-invoice-item").first().text();
+
+                order = new Order();
+                order.setCreateTime(new Date());
+                order.setId(orderId);
+                order.setOrderName(orderName);
+                try {
+                    order.setOrderTime(dateformat1.parse(StringUtils.removeStart(orderDate,"Ordered on ")));
+                } catch (ParseException e) {
+                    e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                }
+                orderDao.save(order);
+            }
+
+
+             if(order.getTotalItem()==null|| order.getTotalItem()<1){
+                 String link =  "/gp/css/summary/print.html/ref=od_aui_print_invoice?ie=UTF8&orderID="+orderId;
+                 order.setOrderLink(link);
+                 orders.add(order);
+             }
+
+
+            List<OrderItem> list = new ArrayList<OrderItem>();
+            Elements shipments = element.getElementsByClass("shipment");
+            for (Element shipment : shipments) {
+                String status =shipment.getElementsByTag("span").get(0).text();
+                if(status.equals("On the way")|| status.equals("Shipped") || status.equals("Delivered")) {
+                   // System.out.println("href-------------------------------------------begin");
+                /*   Elements as =shipment.getElementsByTag("a");
+                    for(Element el : as){
+                        System.out.println(el.html());
+                    }*/
+
+                    String href = shipment.getElementsByClass("a-button-text").get(0).attr("href");
+                    String shipmentId = StringUtils.substringAfterLast(href,"shipmentId=");
+                    Date delivery = null ;
+                    Element product =null;
+
+
+                    if(status.equals("Delivered")){
+                           String as =shipment.getElementsByTag("span").get(1).text();
+                           if(as.startsWith("Delivered on")){
+                               try {
+                                   delivery = dateformat2.parse( StringUtils.remove(as,"Delivered on:").trim());
+                               } catch (ParseException e) {
+                                   e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                               }
+                           }else{
+                               System.out.println("can not get status by shipment id["+shipmentId+"]");
+                           }
+
+                        product = shipment.getElementsByTag("a").get(2);
+                    }else{
+                        try {
+                            delivery =dateformat2.parse(shipment.getElementsByTag("span").get(2).text());
+                        } catch (ParseException e){
+                           e.printStackTrace();
+                        }
+                        product = shipment.getElementsByTag("a").get(3);
+                    }
+                  //  System.out.println("href-------------------------------------------end");
+                    String productLink = product.attr("href");
+                    String productCode = StringUtils.substringBetween(productLink, "product/", "/");
+
+                    //product no need always fetch.
+        /*            if(productDao.get(productCode)==null){
+                        Element image = product.child(0);
+                        String productName = image.attr("title");
+                        Product model =new Product();
+                        model.setId(productCode);
+                        model.setName(productName);
+                        model.setImage(image.attr("src"));
+                        productDao.save(model);
+                    }*/
+
+                    OrderItem item = orderItemDao.findUnique("from OrderItem where shipmentId=?",shipmentId);
+                    if(item==null){
+                        item = new OrderItem();
+                        item.setOrderId(orderId);
+                        item.setShipmentId(shipmentId);
+                        item.setDeliveryDate(delivery);
+                        item.setShipmentLink(href);
+                        item.setStatus(status);
+                        item.setCreateTime(new Date());
+                        item.setUpdateTime(new Date());
+                        item.setProductId(productCode);
+                        list.add(item);
+                    }else{
+                        item.setUpdateTime(new Date());
+                        item.setStatus(status);
+                        item.setDeliveryDate(delivery!=null?delivery:null);
+                        orderItemDao.update(item);
+                    }
+                }
+            }
+            loadTrack(list, cookie);
+        }
+
+         loadOrderTotalItem(orders,cookie);
+    }
     public void loadOrders(String cookie, String page) throws IOException, InterruptedException {
         Document doc = Jsoup.parse(orderList(cookie, page));
         //Document doc = Jsoup.parse(new File("d:/abcd.html"),"UTF-8");

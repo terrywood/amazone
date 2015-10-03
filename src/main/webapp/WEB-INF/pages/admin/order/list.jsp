@@ -50,7 +50,7 @@
             <th >NO.</th>
             <th >ID</th>
             <th >Product</th>
-            <th >ItemCount/Total</th>
+            <th >Quantity/Total</th>
             <th >Name</th>
             <th >DeliveryDate</th>
             <th >OrderTime</th>
