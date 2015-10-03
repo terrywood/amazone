@@ -43,7 +43,7 @@
                 <version>2.2</version>
                 <configuration>
                     <path>/${finalName}</path>
-                    <port>8083</port>
+                    <port>8080</port>
                 </configuration>
             </plugin>
 

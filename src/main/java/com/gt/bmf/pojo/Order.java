@@ -33,6 +33,14 @@ public class Order implements Serializable {
         return orderItems;
     }
 
+    public Integer getClickedCount() {
+        Integer count=0;
+        for(OrderItem item :orderItems){
+            if (item.getTag())count++;
+        }
+        return count;
+    }
+
     public String getOrderLink() {
         return orderLink;
     }

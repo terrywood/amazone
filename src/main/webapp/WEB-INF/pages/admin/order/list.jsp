@@ -47,10 +47,10 @@
     <table id="list_table">
         <thead>
         <tr style="font-size: 100">
-            <th >NO.</th>
+            <th ></th>
             <th >ID</th>
             <th >Product</th>
-            <th >Quantity/Total</th>
+            <th >Clicked/Quantity/Total</th>
             <th >Name</th>
             <th >DeliveryDate</th>
             <th >OrderTime</th>
@@ -60,10 +60,14 @@
         <tbody>
         <c:forEach var="obj" items="${pageList.data}" varStatus="vs">
             <tr>
-                <td>${vs.count}</td>
+                <td><input type="checkbox"
+                 <c:if test="${obj.clickedCount>0}">checked="checked" </c:if>
+                 <c:if test="${obj.clickedCount!=obj.totalItem}">disabled="true" </c:if>
+                 <c:if test="${obj.clickedCount==obj.totalItem  && obj.totalItem == fn:length(obj.orderItems)}">readonly="readonly" </c:if>
+                  /></td>
                 <td>${obj.id}</td>
                 <td>${obj.orderItems[0].product.aliasName}</td>
-                <td <c:if test="${fn:length(obj.orderItems)!=obj.totalItem}"> style="color: red" </c:if>  > ${fn:length(obj.orderItems)}/${obj.totalItem}</td>
+                <td> ${obj.clickedCount}/${fn:length(obj.orderItems)}/${obj.totalItem}</td>
                 <td>${obj.orderName}</td>
                 <td><fmt:formatDate value="${obj.orderItems[0].deliveryDate}" pattern="yyyy-MM-dd"/> </td>
                 <td><fmt:formatDate value="${obj.orderTime}" pattern="yyyy-MM-dd"/> </td>

@@ -60,7 +60,7 @@ public class OrderItem implements Serializable {
     }
 
     public Boolean getTag() {
-        return tag;
+        return tag==null?false:tag;
     }
 
     public void setTag(Boolean tag) {
