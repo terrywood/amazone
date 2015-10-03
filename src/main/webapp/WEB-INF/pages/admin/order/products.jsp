@@ -22,18 +22,15 @@
 <body>
 <%@ include file="../topBar.jsp"%>
 
-<form action="${pageContext.request.contextPath}/admin/updateOrderDetail.do" method="post">
+<form action="${pageContext.request.contextPath}/admin/updateProducts.do" method="post">
 <div id="bodyContainer">
 
 
 <div style="overflow: auto;">
     <div style="padding: 0px 0px 10px 5px; font-size: large; font-weight: bolder; float: left;">
-       Order ID : ${param.orderId}
+      Products
     </div>
     <div style="padding: 0px 5px 10px 0px; float: right;">
-        <input type="hidden" name="orderId" value="${param.orderId}"/>
-        <input type="hidden" name="searchOrderId" value="${param.searchOrderId}"/>
-        <input type="hidden" name="searchOrderName" value="${param.searchOrderName}"/>
         <input value="Submit" class="button" style="cursor: pointer;" type="submit" />
     </div>
 </div>
@@ -44,24 +41,20 @@
     <table id="list_table">
         <thead>
         <tr style="font-size: 100">
-            <th ><input type="checkbox" value="all" id="btn1" onclick="selFn()"/></th>
             <th >No.</th>
-            <th >trackId</th>
-            <th >status</th>
-            <th >deliveryDate</th>
-            <th >product</th>
+            <th >Image</th>
+            <th >Name</th>
+            <th >aliasName</th>
+
         </tr>
         </thead>
         <tbody>
-        <c:forEach var="obj" items="${list}" varStatus="vs">
+        <c:forEach var="obj" items="${products}" varStatus="vs">
             <tr>
-                <td>
-<input type="checkbox" value="${obj.id}" name="items" <c:if test="${obj.tag}">checked="checked"</c:if> /></td>
                 <td>${vs.count}</td>
-                <td>${obj.trackId}</td>
-                <td>${obj.status}</td>
-                <td><fmt:formatDate value="${obj.deliveryDate}" pattern="yyyy-MM-dd"/> </td>
-                <td>${obj.product.aliasName}</td>
+                <td><img width="60" height="60" src="${obj.image}"/></td>
+                <td>${obj.name}</td>
+                <td><input name="${obj.id}" value="${obj.aliasName}"/></td>
                 </td>
             </tr>
         </c:forEach>

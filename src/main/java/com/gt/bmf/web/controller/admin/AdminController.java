@@ -4,6 +4,7 @@ import com.gt.bmf.BmfConstants;
 import com.gt.bmf.common.page.PageList;
 import com.gt.bmf.pojo.Order;
 import com.gt.bmf.pojo.OrderItem;
+import com.gt.bmf.pojo.Product;
 import com.gt.bmf.service.OrderService;
 import com.gt.bmf.service.ProductService;
 import com.gt.bmf.util.NUIResponseUtils;
@@ -53,7 +54,6 @@ public class AdminController {
         PageList<Order> pageList = orderService.findPageData(params,pageNum, pageSize);
         request.setAttribute("pageList", pageList);
         request.setAttribute("params", params);
-       // request.setAttribute("products", productService.findAll());
         return "/admin/order/list";
     }
 
@@ -76,6 +76,25 @@ public class AdminController {
     public String myip( HttpServletRequest request) {
         return "/admin/order/myip";
     }
+
+    @RequestMapping(value = "/products", method = RequestMethod.GET)
+    public String product( HttpServletRequest request) {
+        request.setAttribute("products", productService.findAll());
+        return "/admin/order/products";
+    }
+    @RequestMapping(value = "/updateProducts")
+    public String updateProducts( @RequestParam Map<String,String> params,HttpServletRequest request) {
+        System.out.println(params);
+        for(String id :params.keySet()){
+           Product product = productService.get(id);
+           if(product!=null){
+               product.setAliasName(params.get(id));
+               productService.update(product);
+           }
+        }
+        return "redirect:products.do";
+    }
+
     @RequestMapping(value = "/orderDetail", method = RequestMethod.GET)
     public String orderDetail(
             @RequestParam(value = "orderId", defaultValue = "") String orderId,
@@ -89,6 +108,8 @@ public class AdminController {
     public String updateOrderDetail(
             @RequestParam(value = "items", defaultValue = "") Long[] items,
             @RequestParam(value = "orderId", defaultValue = "") String orderId,
+            @RequestParam(value = "searchOrderId", defaultValue = "") String searchOrderId,
+            @RequestParam(value = "searchOrderName", defaultValue = "") String searchOrderName,
             HttpServletRequest request) {
 
         orderService.updateOrderItemTag( orderId ,false);
@@ -99,7 +120,7 @@ public class AdminController {
                 orderService.updateOrderItem(item);
             }
         }
-        return "redirect:orderList.do";
+        return "redirect:orderList.do?orderId="+searchOrderId+"&orderName="+searchOrderName;
     }
     @ResponseBody
     @RequestMapping(value = "/updateOrderTag")

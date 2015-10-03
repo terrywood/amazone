@@ -2,7 +2,9 @@ package com.gt.bmf.pojo;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import static javax.persistence.GenerationType.IDENTITY;
 
@@ -19,7 +21,26 @@ public class Order implements Serializable {
     private Date createTime;
     private Date orderTime;
     private String orderName;
+    private Integer totalItem;
 
+    @Transient
+    private List<OrderItem> orderItems = new ArrayList<OrderItem>();
+
+    public List<OrderItem> getOrderItems() {
+        return orderItems;
+    }
+
+    public Integer getTotalItem() {
+        return totalItem;
+    }
+
+    public void setTotalItem(Integer totalItem) {
+        this.totalItem = totalItem;
+    }
+
+    public void setOrderItems(List<OrderItem> orderItems) {
+        this.orderItems = orderItems;
+    }
 
     public String getId() {
         return id;

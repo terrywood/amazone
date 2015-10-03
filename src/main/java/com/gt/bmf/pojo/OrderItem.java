@@ -30,6 +30,7 @@ public class OrderItem implements Serializable {
     @org.hibernate.annotations.Type(type = "yes_no")
     private Boolean tag;
 
+    @Transient
     private Product product;
 
 

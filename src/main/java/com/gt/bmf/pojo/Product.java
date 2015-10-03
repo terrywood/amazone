@@ -21,7 +21,7 @@ public class Product implements Serializable {
 	private String name;
 	//private String link;
 	private String image;
-	private String tag;
+	private String aliasName;
 
     public String getId() {
         return id;
@@ -39,12 +39,12 @@ public class Product implements Serializable {
         this.name = name;
     }
 
-    public String getTag() {
-        return tag;
+    public String getAliasName() {
+        return aliasName;
     }
 
-    public void setTag(String tag) {
-        this.tag = tag;
+    public void setAliasName(String aliasName) {
+        this.aliasName = aliasName;
     }
 
     public String getImage() {

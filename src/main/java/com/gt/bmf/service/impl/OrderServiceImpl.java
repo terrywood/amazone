@@ -161,7 +161,11 @@ public class OrderServiceImpl extends BmfBaseServiceImpl<Order> implements Order
 
     @Override
     public PageList<Order> findPageData(Map<String, String> params, Integer pageNum, Integer pageSize) {
-        return this.orderDao.findPageData(params,pageNum,pageSize);  //To change body of implemented methods use File | Settings | File Templates.
+        PageList<Order> orderPageList  =orderDao.findPageData(params,pageNum,pageSize);
+        for(Order order : orderPageList.getData()){
+            order.setOrderItems(findItemByOrderId(order.getId()));
+        }
+        return orderPageList;  //To change body of implemented methods use File | Settings | File Templates.
     }
 
     @Override

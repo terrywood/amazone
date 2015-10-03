@@ -48,9 +48,11 @@
         <thead>
         <tr style="font-size: 100">
             <th >NO.</th>
-            <th >id</th>
-            <th >name</th>
-            <th >orderTime</th>
+            <th >ID</th>
+            <th >Product</th>
+            <th >ItemCount/Total</th>
+            <th >Name</th>
+            <th >OrderTime</th>
             <th >#</th>
         </tr>
         </thead>
@@ -59,10 +61,11 @@
             <tr>
                 <td>${vs.count}</td>
                 <td>${obj.id}</td>
+                <td>${obj.orderItems[0].product.aliasName}</td>
+                <td> ${fn:length(obj.orderItems)}/</td>
                 <td>${obj.orderName}</td>
                 <td><fmt:formatDate value="${obj.orderTime}" pattern="yyyy-MM-dd"/> </td>
-                <td><a href="orderDetail.do?orderId=${obj.id}">Show Detail</a></td>
-                </td>
+                <td><a href="orderDetail.do?orderId=${obj.id}&searchOrderId=${param.orderId}&serarchOrdername=${param.orderName}">Show Detail</a></td>
             </tr>
         </c:forEach>
         </tbody>

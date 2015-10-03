@@ -34,7 +34,8 @@
                     if(data.message)  {
                         alert(data.message);
                     }else{
-                        window.location.reload();
+                        //window.location.reload();
+                        window.location = $(".next a").attr("href");
                     }
                 }
             });
@@ -121,7 +122,25 @@
             <pg:param name="orderId"  value="${param.orderId}"/>
             <pg:index >
                 <ul id="pagination">
-                    <pg:prev ifnull="true"><c:choose><c:when test="${not empty pageUrl}"><li class="previous"><a href="${pageUrl}">&#171; Previous</a></li></c:when><c:otherwise><li class="previousOff">&#171; Previous</li></c:otherwise></c:choose></pg:prev><pg:pages><c:choose><c:when test="${pageNumber == currentPageNumber}"><li class="active">${pageNumber}</li></c:when><c:otherwise><li><a href="${pageUrl}">${pageNumber}</a></li></c:otherwise></c:choose></pg:pages><pg:next ifnull="true"><c:choose><c:when test="${not empty pageUrl}"><li class="next"><a href="${pageUrl}">Next &#187;</a></li></c:when><c:otherwise><li class="nextOff">Next &#187;</li></c:otherwise></c:choose></pg:next>
+                    <pg:prev ifnull="true">
+                        <c:choose>
+                            <c:when test="${not empty pageUrl}">
+                                <li class="previous"><a href="${pageUrl}">&#171; Previous</a></li></c:when>
+                            <c:otherwise>
+                                <li class="previousOff">&#171; Previous</li></c:otherwise>
+                        </c:choose>
+                    </pg:prev>
+                    <pg:pages>
+                        <c:choose>
+                            <c:when test="${pageNumber == currentPageNumber}">
+                                <li class="active">${pageNumber}</li>
+                            </c:when>
+                            <c:otherwise>
+                                <li><a href="${pageUrl}">${pageNumber}</a>
+                            </li></c:otherwise>
+                        </c:choose>
+                    </pg:pages>
+                    <pg:next ifnull="true"><c:choose><c:when test="${not empty pageUrl}"><li class="next"><a href="${pageUrl}">Next &#187;</a></li></c:when><c:otherwise><li class="nextOff">Next &#187;</li></c:otherwise></c:choose></pg:next>
                 </ul>
             </pg:index>
         </pg:pager>

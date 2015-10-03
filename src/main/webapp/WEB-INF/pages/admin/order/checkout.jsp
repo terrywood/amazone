@@ -48,7 +48,12 @@
 
             </div>
         </div>
-
+        <div class="formRow">
+            <div class="label">Date</div>
+            <div class="field">
+                 <input id="time">
+            </div>
+        </div>
         <div class="formRow">
             <div class="label">&nbsp;</div>
             <div class="field"><input type="submit" value="Submit" /></div>
@@ -63,6 +68,8 @@
 
 <script>
     $(document).ready(function () {
+        $("#time").datepicker();
+
         $("form").submit(function(event) {
             $('#shclNs').show();
             $('#shclNs').shCircleLoader({namespace:"myns",color:"transparent",dotsRadius:15});

@@ -25,7 +25,7 @@ public class OrderItemDaoImpl extends BmfBaseDaoImpl<OrderItem> implements Order
 
     @Override
     public PageList findOrderItemPageData(Map<String, String> params, Integer pageNum, Integer pageSize) {
-        String hql ="select a.trackId,a.status,a.deliveryDate,c.name,a.orderId,b.orderTime,b.orderName" +
+        String hql ="select a.trackId,a.status,a.deliveryDate,c.aliasName,a.orderId,b.orderTime,b.orderName" +
                 ",a.id,a.tag from OrderItem a, Order b ,Product c where a.orderId=b.id and a.productId=c.id";
         List<Object> paramList = new ArrayList<Object>();
         if(StringUtils.isNotBlank(params.get("orderName"))) {

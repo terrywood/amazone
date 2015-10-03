@@ -6,6 +6,7 @@
         <li><a href="${pageContext.request.contextPath}/admin/orderList.do">Order List</a></li>
         <li><a href="${pageContext.request.contextPath}/admin/orderItemList.do">Item List</a></li>
         <li><a href="${pageContext.request.contextPath}/admin/checkout.do">Check Out</a></li>
+        <li><a href="${pageContext.request.contextPath}/admin/products.do">Products</a></li>
         <li><a href="${pageContext.request.contextPath}/admin/myip.do">My IP</a></li>
 <%--        <li class="logout"><a href="${appPath}/logout.do">Logout</a></li>--%>
         <li class="adminName">Admin</li>
