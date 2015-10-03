@@ -118,6 +118,7 @@
             <groupId>org.springframework</groupId>
             <artifactId>spring-test</artifactId>
             <version>${spring.version}</version>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>org.springframework</groupId>
@@ -125,7 +126,7 @@
             <version>${spring.version}</version>
         </dependency>
 
-        <dependency>
+       <dependency>
             <groupId>org.springframework.security</groupId>
             <artifactId>spring-security-core</artifactId>
             <version>3.2.4.RELEASE</version>
@@ -140,6 +141,8 @@
             <artifactId>aspectjrt</artifactId>
             <version>1.8.1</version>
         </dependency>
+
+
         <!--<dependency>
             <groupId>cglib</groupId>
             <artifactId>cglib</artifactId>
@@ -296,11 +299,11 @@
             <artifactId>dbunit</artifactId>
             <version>2.4.8</version>
         </dependency>
-        <dependency>
+    <!--    <dependency>
             <groupId>net.sf.opencsv</groupId>
             <artifactId>opencsv</artifactId>
             <version>2.3</version>
-        </dependency>
+        </dependency>-->
 
         <dependency>
             <groupId>junit</groupId>
@@ -317,7 +320,7 @@
 
 
 
-        <dependency>
+       <!-- <dependency>
             <groupId>org.tuckey</groupId>
             <artifactId>urlrewritefilter</artifactId>
             <version>4.0.4</version>
@@ -327,7 +330,7 @@
                     <groupId>ant</groupId>
                 </exclusion>
             </exclusions>
-        </dependency>
+        </dependency>-->
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
@@ -346,11 +349,11 @@
             <artifactId>jackson-mapper-asl</artifactId>
             <version>1.9.9</version>
         </dependency>
-        <dependency>
+<!--        <dependency>
             <groupId>com.ckeditor</groupId>
             <artifactId>ckeditor-java-core</artifactId>
             <version>3.5.3</version>
-        </dependency>
+        </dependency>-->
         <!-- other end -->
         <dependency>
             <groupId>org.apache.httpcomponents</groupId>
@@ -376,7 +379,6 @@
         </dependency>
 
         <dependency>
-            <!-- jsoup HTML parser library @ http://jsoup.org/ -->
             <groupId>org.jsoup</groupId>
             <artifactId>jsoup</artifactId>
             <version>1.8.3</version>
