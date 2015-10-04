@@ -17,11 +17,12 @@ public class Product implements Serializable {
     @Id
     @Column(name = "id", unique = true, nullable = false)
 	private String id;
-
 	private String name;
 	//private String link;
 	private String image;
 	private String aliasName;
+    private Integer transportValue;
+
 
     public String getId() {
         return id;

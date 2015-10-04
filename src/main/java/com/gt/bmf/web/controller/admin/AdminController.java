@@ -127,7 +127,7 @@ public class AdminController {
     public String updateOrderTag(
             @RequestParam Map<String,String> params,
             HttpServletRequest request) {
-      System.out.println(params);
+      //System.out.println(params);
         for(String id :params.keySet()){
             orderService.updateOrderItemTagByItemId( Long.valueOf(id) ,Boolean.valueOf(params.get(id)));
         }
@@ -183,15 +183,18 @@ public class AdminController {
         String str="{\"code\":\"200\"}";
         return str;
     }
-
-
     @RequestMapping(value = "/checkout", method = RequestMethod.GET)
     public String checkout1(
                             HttpServletRequest request) {
         return "/admin/order/checkout";
     }
 
+    @RequestMapping(value = "/genScript", method = RequestMethod.GET)
+    public String genScript(
+                            String orderId,
+                            HttpServletRequest request) {
 
-
-
+        request.setAttribute("list",orderService.findItemByOrderId(orderId));
+        return "/admin/order/genScript";
+    }
 }

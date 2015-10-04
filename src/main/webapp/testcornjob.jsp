@@ -33,7 +33,7 @@
     var tracks =['412466771776','412466770586','412466771581','412466771710']
     $('input[name="productexpno[]"]').each(function(index){
        $(this).val(tracks[index]);
-       $('select[name=goodsid'+index+']').val('90').attr("selected",true);
+       $('select[name=goodsid'+index+']').val('90').attr("selected",true).prop("checked", true);;
     });
 
 </script>

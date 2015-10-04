@@ -50,7 +50,7 @@
             <th ></th>
             <th >ID</th>
             <th >Product</th>
-            <th >Clicked/Quantity/Total</th>
+            <th >点左/下载左/总数</th>
             <th >Name</th>
             <th >DeliveryDate</th>
             <th >OrderTime</th>
@@ -71,7 +71,9 @@
                 <td>${obj.orderName}</td>
                 <td><fmt:formatDate value="${obj.orderItems[0].deliveryDate}" pattern="yyyy-MM-dd"/> </td>
                 <td><fmt:formatDate value="${obj.orderTime}" pattern="yyyy-MM-dd"/> </td>
-                <td><a href="orderDetail.do?orderId=${obj.id}&searchOrderId=${param.orderId}&searchOrderName=${param.orderName}">Show Detail</a></td>
+                <td><a href="orderDetail.do?orderId=${obj.id}&searchOrderId=${param.orderId}&searchOrderName=${param.orderName}">Show Detail</a>
+                    &nbsp;&nbsp;&nbsp;
+                    <a target="_blank" href="genScript.do?orderId=${obj.id}&searchOrderId=${param.orderId}&searchOrderName=${param.orderName}">General Script</a></td>
             </tr>
         </c:forEach>
         </tbody>
