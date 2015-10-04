@@ -72,9 +72,9 @@
                 <td><fmt:formatDate value="${obj.orderItems[0].deliveryDate}" pattern="yyyy-MM-dd"/> </td>
                 <td><fmt:formatDate value="${obj.orderTime}" pattern="yyyy-MM-dd"/> </td>
                 <td><a href="orderDetail.do?orderId=${obj.id}&searchOrderId=${param.orderId}&searchOrderName=${param.orderName}">Show Detail</a>
-                    &nbsp;&nbsp;&nbsp;
+      <%--              &nbsp;&nbsp;&nbsp;
                     <a target="_blank" href="genScript.do?orderId=${obj.id}&searchOrderId=${param.orderId}&searchOrderName=${param.orderName}">General Script</a></td>
-            </tr>
+--%>            </tr>
         </c:forEach>
         </tbody>
     </table>
