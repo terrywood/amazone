@@ -33,5 +33,5 @@
 
 
 	<import resource="bmf_applicationContext-db.xml" />
-    <import resource="bmf_applicationContext_cronjob.xml" />
+   <!-- <import resource="bmf_applicationContext_cronjob.xml" />-->
 </beans>
