@@ -33,8 +33,8 @@ import java.util.*;
 
 @Service("orderService")
 public class OrderServiceImpl extends BmfBaseServiceImpl<Order> implements OrderService {
-    SimpleDateFormat dateformat1=new SimpleDateFormat("MMMM dd,yyyy", Locale.ENGLISH);
-    SimpleDateFormat dateformat2=new SimpleDateFormat("EEE, MMMM dd,yyyy", Locale.ENGLISH);
+    SimpleDateFormat dateformat1=new SimpleDateFormat("MMMM d,yyyy", Locale.ENGLISH);
+    SimpleDateFormat dateformat2=new SimpleDateFormat("EEE, MMMM d,yyyy", Locale.ENGLISH);
     static String url="https://www.amazon.co.jp";
 
     private String userAgent = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/31.0.1650.63 Safari/537.36";
@@ -186,6 +186,7 @@ public class OrderServiceImpl extends BmfBaseServiceImpl<Order> implements Order
 
 
 
+            System.out.println("orderId["+orderId+"] orderDate["+orderDate+"]");
 
             Order order = orderDao.get(orderId);
             if(order ==null){
@@ -199,6 +200,21 @@ public class OrderServiceImpl extends BmfBaseServiceImpl<Order> implements Order
                     e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
                 }
                 orderDao.save(order);
+            } else{
+                if(order.getOrderTime()==null){
+                    try {
+                        order.setOrderName(orderName);
+                        order.setOrderTime(dateformat1.parse(orderDate));
+                        orderDao.update(order);
+                    } catch (ParseException e) {
+                        e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                    }
+
+                    //System.out.println(order.getOrderTime());
+                }
+
+
+
             }
 
 
@@ -214,17 +230,11 @@ public class OrderServiceImpl extends BmfBaseServiceImpl<Order> implements Order
             for (Element shipment : shipments) {
                 String status =shipment.getElementsByTag("span").get(0).text();
                 if(status.equals("On the way")|| status.equals("Shipped") || status.equals("Delivered")) {
-                   // System.out.println("href-------------------------------------------begin");
-                /*   Elements as =shipment.getElementsByTag("a");
-                    for(Element el : as){
-                        System.out.println(el.html());
-                    }*/
 
                     String href = shipment.getElementsByClass("a-button-text").get(0).attr("href");
                     String shipmentId = StringUtils.substringAfterLast(href,"shipmentId=");
                     Date delivery = null ;
                     Element product =null;
-
 
                     if(status.equals("Delivered")){
                            String as =shipment.getElementsByTag("span").get(1).text();

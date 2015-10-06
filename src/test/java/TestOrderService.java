@@ -29,13 +29,17 @@ public class TestOrderService {
                 "https://www.amazon.co.jp/gp/your-account/order-history/ref=oh_aui_pagination_5_6?ie=UTF8&orderFilter=months-6&search=&startIndex=50"
         };
 
-        String cookie ="skin=noskin; x-wl-uid=1L+/QeZkey77UYHyTGjpDdZJKOxJQclMVk6P3X6ooFaWPUdL9X/15VkB+ZnR8vGoP7my+q77OkWXs9lyxxdVID8bdnHIhVmfwgOBpqSCl8aLuCbt7sv7ygmdZFvxYdIB8ssJznDJBpM8=; session-id-time=2082726001l; session-id=375-9577787-6026354; csm-hit=s-V5ANMGR9G8JV6DDPFMJ6|1443687049033; ubid-acbjp=378-2988962-1779238; session-token=\"MQ3bkbqE1/9RACQ8+eYtshbRHDGV1N6tlhFVz5R7vFpG2PlbbCJXmdNlMv13unMscBTV5o6X66x95wLuFisA4oEReMu0nG2ioTdcrB/6KVy6k2tQbQa3CFpYqFyWkXMUeXY6TTL3VDJam3YOpwAPixjezihhYMVej/kfbwvfHnck2chYS1i3S1zlaGuV8NEgu7brw1DqRz0ufSirTFUjOw5YfaeE9NIuQ4qnxFfdtbU=\"; x-acbjp=\"9CDzMc9tONdF1VTwpiR75lUBVySEdh70@xlnPOnrYd2Fd5B1bYBZ2yMa9kpRmlt2\"; at-acbjp=\"5|3PrQg9iHyNMyJ0rJ80pwWEQsNVArBHvxlw+n7UpzDbtIENispjtrCbjoseLSFRxp1y21YIXnq9VnOsiVwVdeR/4IKS8K2orejtQ/9OYiEg8368FbuD5ywRIILJz3rBzNisJgbk64LXp0HEBc0GYIWn+OJNwTY9cJd/FipUpqANOEWOI9xEw+aoZJuzmKokIf9295h2Rmm+rNyCFtI5E1U6DnQ60Dn5z4ef7OZMzvtpfDnFqSy+dx/gySYMmnJrwIYh0Xc9ZDJ1vu50KMhr2moXEvPrYYqzRIW4/nfJO1ln0=\"; sess-at-acbjp=\"ny6oXB+BbMlkDuEMM51ZrMta+hT5lCnASce6JRtNzt8=\"; lc-acbjp=en_JP; s_cc=true; s_nr=1443682664674-New; s_vnum=1875682640830%26vn%3D1; s_dslv=1443682664689; s_sq=%5B%5BB%5D%5D; s_ppv=41; a-ogbcbff=1";
+        String cookie ="skin=noskin; lc-acbjp=en_JP; x-wl-uid=1WT6ELOKhe/JdxnbpPBisWZcTC+YxHG9W5lxuBTgfal/dzPVyM21fRqtcMC5f0Lyp4svTBCs8BBbKNcE1HRdJiQBiKmSnpDP5hJA8oUkwPXugDJ5f9L4gcoaMRwPWAN9Mev5jb/i7GDo=; csm-hit=s-H38FVJ1PJA7WM2VSQGEE|1444145728311; a-ogbcbff=1; session-token=\"3H3FCuAHhm3hmRbXFJfIX3K9dQBWyv6NstRdHV0SAqx5bOwOF8M/6X10fjAlpzUwZtTe42D2fh7sTnMPs0Hu3TbksAwo3yUz6rPnbAwB/Vfps8pb5LjLR1iTYZL4mIC0DfPKgsoi5nktZJ9M3ddlcGavEudjRT7aEdwYX3LF84tWtEghOZSJGvikNvF4Phx7mavB2sxXoPLbDJCjVjpbGpcWbYW06A6jug4iWjqnd4t2FLjjTXS1iYGxDGVwcpDQ9pkMlU44FYWSlkUodkzipw==\"; x-acbjp=pQzlpSGVLbZ2tPGESArAGF4MQrKP0iXy1sH4RHeQ9h1uSuEcszFDfAtjCxXNaj1D; at-acbjp=\"5|BFc9sDzI8d/ts+p9sk4dAN/wYCMm7C3kH/aiTRiNgDDcbsMAelSE0jppt7ev7EbLQLWhLPbSEOdFQzaEYNUk3IRyAqDa3paxlInMVFo7iyAofMC3jNsKBYIF920r4JKYf0NuiasKhv0RgWhBAMi5zOXmZyXee0QYyV0C/v1lFuTQfjV0slu1WwIf+wI87LnmuSjGsIKd5gWWtgzDIKd+FYZw8PnKCDjaZqgGh3wFS6TE0J7qwona6CL3LxVVmNg/19h88O0eJCxFSX8bh5xK/x28VoZySqFy3ttDORKXcoU=\"; sess-at-acbjp=\"K9JP/mTY9Uzc6AtgnoBq2uVtKhPygS4jMOX1WYYpmBQ=\"; ubid-acbjp=378-5163145-6836369; session-id-time=2082726001l; session-id=378-6234317-2784502";
 
-      //  for(String url :urls)
-      //  service.loadOrders(cookie,url);
+        for(String url :urls)
+        service.loadOrders(cookie,url);
+
+
        // service.loadOrders(cookie,"https://www.amazon.co.jp/gp/css/order-history/ref=nav__gno_yam_yrdrs");
-        service.loadOneOrder(cookie,"250-6151182-0937433");
-        Map<String,String> params =new HashMap<String,String>();
+
+
+ /*       service.loadOneOrder(cookie,"250-6151182-0937433");
+        Map<String,String> params =new HashMap<String,String>();*/
       //  service.findOrderItemPageData(params,1,10);
         System.exit(0);
 
