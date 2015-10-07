@@ -37,7 +37,7 @@ public class OrderItemDaoImpl extends BmfBaseDaoImpl<OrderItem> implements Order
             paramList.add("%"+params.get("orderId").trim()+"%");
         }
         if(StringUtils.isNotBlank(params.get("trackId"))) {
-            hql+=" and a.id trackId ?";
+            hql+=" and a.trackId like ?";
             paramList.add("%"+params.get("trackId").trim()+"%");
         }
         hql+=" order by a.deliveryDate desc, b.id desc";

@@ -34,8 +34,12 @@
                     if(data.message)  {
                         alert(data.message);
                     }else{
-                        //window.location.reload();
-                        window.location = $(".next a").attr("href");
+                        if($('.next').length>0 ){
+                            window.location = $(".next a").attr("href");
+                        } else{
+                            window.location = 'orderItemList.do';
+                        }
+
                     }
                 }
             });
