@@ -36,6 +36,10 @@ public class OrderItemDaoImpl extends BmfBaseDaoImpl<OrderItem> implements Order
             hql+=" and b.id like ?";
             paramList.add("%"+params.get("orderId").trim()+"%");
         }
+        if(StringUtils.isNotBlank(params.get("trackId"))) {
+            hql+=" and a.id trackId ?";
+            paramList.add("%"+params.get("trackId").trim()+"%");
+        }
         hql+=" order by a.deliveryDate desc, b.id desc";
         return  super.findPageData(hql,pageNum,pageSize,paramList.toArray());
     }

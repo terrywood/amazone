@@ -14,7 +14,7 @@ import com.gt.bmf.dao.BmfBaseDao;
 import com.gt.bmf.pojo.BmfAppToken;
 import com.gt.bmf.service.BmfAppTokenService;
 
-@Service("bmfAppTokenService")
+//@Service("bmfAppTokenService")
 public class BmfAppTokenServiceImpl extends BmfBaseServiceImpl<BmfAppToken> implements BmfAppTokenService {
 
 	private static Logger logger = Logger.getLogger("BmfPushMessageServiceImpl");

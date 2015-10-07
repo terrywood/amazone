@@ -33,7 +33,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
 
-@Service("gfQueryLogService")
+//@Service("gfQueryLogService")
 public class GfQueryLogServiceImpl extends BmfBaseServiceImpl<GfQueryLog> implements GfQueryLogService {
     @Value("${gf.cookie}")
     private String gfCookie;

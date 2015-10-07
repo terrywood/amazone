@@ -22,15 +22,17 @@
 		<property name="locations">
 			<list>
 				<value>classpath*:config/*.properties</value>
-				<value>classpath*:config/*/*.properties</value>
+			<!--	<value>classpath*:config/*/*.properties</value>-->
 			</list>
 		</property>
 	</bean>
 
+<!--
 	<bean id="md5PasswordEncoder" class="org.springframework.security.authentication.encoding.Md5PasswordEncoder" />
-	
+-->
+
 
 
 	<import resource="bmf_applicationContext-db.xml" />
-    <import resource="bmf_applicationContext_cronjob.xml" />
+  <!--  <import resource="bmf_applicationContext_cronjob.xml" />-->
 </beans>
