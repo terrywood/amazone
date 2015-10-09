@@ -5,6 +5,7 @@ import com.gt.bmf.dao.*;
 import com.gt.bmf.exception.BmfBaseException;
 import com.gt.bmf.pojo.Order;
 import com.gt.bmf.pojo.OrderItem;
+import com.gt.bmf.pojo.Product;
 import com.gt.bmf.service.OrderService;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringUtils;
@@ -122,17 +123,15 @@ public class OrderServiceImpl extends BmfBaseServiceImpl<Order> implements Order
                            }else{
                                System.out.println("can not get status by shipment id["+shipmentId+"]");
                            }
-
-                        product = shipment.getElementsByTag("a").get(2);
                     }else{
                         try {
                             delivery =dateformat2.parse(shipment.getElementsByTag("span").get(2).text());
                         } catch (ParseException e){
                            e.printStackTrace();
                         }
-                        product = shipment.getElementsByTag("a").get(3);
                     }
                   //  System.out.println("href-------------------------------------------end");
+                    product = shipment.getElementsByClass("a-link-normal").get(0);
                     String productLink = product.attr("href");
                     String productCode = StringUtils.substringBetween(productLink, "product/", "/");
 
@@ -186,7 +185,7 @@ public class OrderServiceImpl extends BmfBaseServiceImpl<Order> implements Order
 
 
 
-            System.out.println("orderId["+orderId+"] orderDate["+orderDate+"]");
+
 
             Order order = orderDao.get(orderId);
             if(order ==null){
@@ -219,15 +218,17 @@ public class OrderServiceImpl extends BmfBaseServiceImpl<Order> implements Order
 
 
              if(order.getTotalItem()==null|| order.getTotalItem()<1){
+                 System.out.println("need update orderId["+orderId+"] orderDate["+orderDate+"]");
                  String link =  orderInfo.get(0).getElementsByTag("a").last().attr("href");
                  order.setOrderLink(link);
                  orders.add(order);
              }
 
-
+            int k=0;
             List<OrderItem> list = new ArrayList<OrderItem>();
             Elements shipments = element.getElementsByClass("shipment");
             for (Element shipment : shipments) {
+                k++;
                 String status =shipment.getElementsByTag("span").get(0).text();
                 if(status.equals("On the way")|| status.equals("Shipped") || status.equals("Delivered")) {
 
@@ -248,21 +249,30 @@ public class OrderServiceImpl extends BmfBaseServiceImpl<Order> implements Order
                                System.out.println("can not get status by shipment id["+shipmentId+"]");
                            }
 
-                        product = shipment.getElementsByTag("a").get(2);
+                       // product = shipment.getElementsByTag("a").get(2);
                     }else{
                         try {
                             delivery =dateformat2.parse(shipment.getElementsByTag("span").get(2).text());
                         } catch (ParseException e){
                            e.printStackTrace();
                         }
-                        product = shipment.getElementsByTag("a").get(3);
+                       // product = shipment.getElementsByTag("a").get(3);
                     }
-                  //  System.out.println("href-------------------------------------------end");
+
+                    product = shipment.getElementsByClass("a-link-normal").get(0);
+                    System.out.println("href-------------------------------------------end");
+                    System.out.println("orderId["+orderId+"]");
+                    System.out.println("status["+status+"]");
+                    System.out.println("k["+k+"]");
+
+                    System.out.println(product.html());
                     String productLink = product.attr("href");
                     String productCode = StringUtils.substringBetween(productLink, "product/", "/");
 
+
+
                     //product no need always fetch.
-        /*            if(productDao.get(productCode)==null){
+                   if(k==1 && productDao.get(productCode)==null){
                         Element image = product.child(0);
                         String productName = image.attr("title");
                         Product model =new Product();
@@ -270,7 +280,7 @@ public class OrderServiceImpl extends BmfBaseServiceImpl<Order> implements Order
                         model.setName(productName);
                         model.setImage(image.attr("src"));
                         productDao.save(model);
-                    }*/
+                    }
 
                     OrderItem item = orderItemDao.findUnique("from OrderItem where shipmentId=?",shipmentId);
                     if(item==null){
@@ -285,12 +295,14 @@ public class OrderServiceImpl extends BmfBaseServiceImpl<Order> implements Order
                         item.setProductId(productCode);
                         list.add(item);
                     }else{
+                        item.setProductId(productCode);
                         item.setUpdateTime(new Date());
                         item.setStatus(status);
                         item.setDeliveryDate(delivery!=null?delivery:null);
                         orderItemDao.update(item);
                     }
                 }
+
             }
             loadTrack(list, cookie);
         }
@@ -302,6 +314,7 @@ public class OrderServiceImpl extends BmfBaseServiceImpl<Order> implements Order
     public List<OrderItem> findItemByOrderId(String orderId) {
         List<OrderItem> list = orderItemDao.findItemByOrderId(orderId);
         for(OrderItem obj:list){
+            if(obj.getProductId()!=null)
             obj.setProduct(productDao.get(obj.getProductId()));
         }
         return  list;
